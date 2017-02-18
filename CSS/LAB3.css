@@ -1,5 +1,12 @@
 /* CSS Document */
          
-  p {
-      font-size: 15px;
-  }
+
+   div.card {
+            width: 72px;
+            height: 96px;
+            display:inherit;
+        }
+   div.suit {
+            width: 100%;
+            display:inline-block;
+   }
