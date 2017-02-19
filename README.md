@@ -22,4 +22,13 @@ internet Programming Lab 3
             player stop drawing cards?
     5) More to come
     
+  Done:
+  1)  Made a pickCard function, but it does not remove from the main array. That creates problems when it comes to printing since
+      we print a card based on its index. Instead, an array holds cards that have been created, and when another card is chosen
+      the function checks to see if that card has been used.
+  2)  Currently working on a Player class and it seems straightforward, but I'm not quite sure how to incorporate the image. Since
+      only the image has to be random, how about we associate each name with an image, and we choose each player's name randomly?
+      It'll be displayed in a random position (1-4), but the image itelf won't be random. Not sure if that's bad.
+  4) No need for turn cycles, everyone just gets cards assigned immediately and everything happens simultaneously
+    
      

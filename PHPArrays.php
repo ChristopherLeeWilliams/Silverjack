@@ -17,6 +17,48 @@
     7) There is an external CSS file with 10 rules (10pts)
   */
   
+  class Player {
+      var $name;
+      var $points;
+      var $totalCards;
+      var $cards = array();
+      
+      public function __construct($name) {
+        $this->name = $name;
+        $this->points = 0;
+        $this->totalCards = 0;
+        $cards = [];
+    }
+      
+      function getName() {
+          return $this->name;
+      }
+      
+      function getPoints() {
+          return $this->points;
+      }
+      
+      // Assigns a player 4-6 random cards
+      function assignCards($cardsArr, $usedCards) {
+          // Each player gets 4 to 6 cards, randomly
+          $totalCards = rand(4, 6);
+          
+          // Choose cards
+          for ($i = 0; i < $totalCards; $i++)
+          {
+              $cards[] = pickCard($cardsArr, $usedCards);
+          }
+      }
+      
+      // Sums up the values of the cards in hand
+      function countPoints() {
+          for ($i = 0; i < $totalCards; $i++)
+          {
+              $points += $cards[$i]["value"];
+          }
+      }
+  }
+  
   $cardsArr = []; // should hold 52 card "objects"
   $usedCards = []; // Holds cards that have already been picked
   initializeCards($cardsArr);
@@ -24,6 +66,12 @@
   
   // Test:
   printArray($cardsArr);
+  for ($i = 0; $i < 51; $i++)
+  {
+    $card1 = pickCard($cardsArr, $usedCards);
+    printCard($card1);
+  }
+
 
  function initializeCards(&$cards) {
   $i;
@@ -62,14 +110,16 @@
  }
  
  // Returns a random card and removes it from the deck
- function pickCard(&$cards) {
+ // Needs to take the deck to return a card from it
+ // Needs to take usedCards to modify the array
+ function pickCard(&$deck, &$usedCards) {
      
     $chosenCard = rand(0, 51);
-    for ($i = 0; i < count($usedCards); $i++) {
+    for ($i = 0; $i < count($usedCards); $i++) {
         
         // If the chosen card was already removed,
         // choose another and loop through again
-         if ($chosenCard == $num) {
+         if ($chosenCard == $usedCards[$i]) {
              $chosenCard = rand(0, 51);
              $i = 0;
          }
@@ -77,7 +127,12 @@
      
      // Return the random card and remove it from the deck
      $usedCards[] = $chosenCard;
-     return $cards[$chosenCard];
+     return $deck[$chosenCard];
+ }
+ 
+ // Prints an individual card
+ function printCard($card) {
+     echo $card["value"]." ". $card["suit"]." ".$card["bgImage"].'<br>';
  }
  
  function printArray($cards) {
