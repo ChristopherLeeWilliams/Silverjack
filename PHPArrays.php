@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
     <link rel="stylesheet" type="text/css"  href="/Labs/Lab3/CSS/LAB3.css">
@@ -72,7 +73,6 @@
   }
   $players["name"] = array(0 => 'Bob', 1 => 'Bill');
   echo $players[0]["name"];
-
   
   // Test:
   printArray($cardsArr);
