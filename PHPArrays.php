@@ -16,7 +16,8 @@
     6) Your contribution in GitHub is similar to your teammates (15pts)
     7) There is an external CSS file with 10 rules (10pts)
   */
-  
+ 
+ /* 
   class Player {
       var $name;
       var $points;
@@ -27,7 +28,7 @@
         $this->name = $name;
         $this->points = 0;
         $this->totalCards = 0;
-        $cards = [];
+        $this->cards = [];
     }
       
       function getName() {
@@ -39,39 +40,47 @@
       }
       
       // Assigns a player 4-6 random cards
-      function assignCards($cardsArr, $usedCards) {
+      function assignCards(&$cardsArr, &$usedCards) {
           // Each player gets 4 to 6 cards, randomly
           $totalCards = rand(4, 6);
           
           // Choose cards
-          for ($i = 0; i < $totalCards; $i++)
+          for ($i = 0; $i < $totalCards; $i++)
           {
-              $cards[] = pickCard($cardsArr, $usedCards);
+              $newCard = pickCard($cardsArr, $usedCards);
+              $this->cards[] = $newCard;
+              printCard($newCard);
           }
       }
       
       // Sums up the values of the cards in hand
       function countPoints() {
-          for ($i = 0; i < $totalCards; $i++)
+          for ($i = 0; $i < $totalCards; $i++)
           {
-              $points += $cards[$i]["value"];
+              $this->points += $cards[$i]["value"];
           }
       }
   }
+  */
   
   $cardsArr = []; // should hold 52 card "objects"
   $usedCards = []; // Holds cards that have already been picked
+  $players = [];
   initializeCards($cardsArr);
+  for ($i = 0; $i < 4; $i++) {
+      
+  }
+  $players["name"] = array(0 => 'Bob', 1 => 'Bill');
+  echo $players[0]["name"];
 
   
   // Test:
   printArray($cardsArr);
-  for ($i = 0; $i < 51; $i++)
+  /*for ($i = 0; $i < 51; $i++)
   {
     $card1 = pickCard($cardsArr, $usedCards);
     printCard($card1);
-  }
-
+  }*/
 
  function initializeCards(&$cards) {
   $i;
