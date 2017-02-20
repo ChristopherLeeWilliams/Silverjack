@@ -16,6 +16,7 @@
     6) Your contribution in GitHub is similar to your teammates (15pts)
     7) There is an external CSS file with 10 rules (10pts)
   */
+  
     // Array containing player names
     $names = array('Player 1','Player 2','Player 3','Player 4');
     
@@ -25,6 +26,7 @@
     
     initializeCards($cardsArr);
     initializePlayers($players, $names, $cardsArr);
+    decideWinner($players);
   
   // Test:
   printArray($cardsArr);
@@ -106,11 +108,46 @@ function initializePlayers(&$players, $names, $cardsArr) {
         echo ', Points: ' . $players[$i]["points"] . '<br><br>';
     }
 }
+ // Determines which player won the game
+ function decideWinner($players) {
+     $maxPoints = 0;
+     $winner = [];
+     
+     // Loop through each player and determine if their points are greater than
+     // or equal to the old max, and that that value is 42 or less
+     for ($i = 0; $i < 4; $i++) {
+         if (($players[$i]["points"] >= $maxPoints) && ($players[$i]["points"] < 43)) 
+         {
+             $maxPoints = $players[$i]["points"];
+         }
+     }
+     
+     // Adds winner(s) to the winner array (Handles ties)
+     for ($i = 0; $i < 4; $i++) {
+         if ($players[$i]["points"] == $maxPoints)
+         {
+             $winner[] = $players[$i];
+         }
+     }
+     
+     
+     // Handle the case where nobody wins
+     if (count($winner) == 0)
+     {
+         echo "Everyone went over 42. Nobody wins!";
+     }
+     
+     // Print out the winner(s)
+     for ($i = 0; $i < count($winner); $i++)
+     {
+         echo $winner[$i]["name"] . " wins!<br>";
+     }
+ }
  
  // Returns a random card and removes it from the deck
  // Needs to take the deck to return a card from it
  // Needs to take usedCards to modify the array
- function pickCard(&$deck, &$usedCards) {
+ function pickCard($deck, &$usedCards) {
      
     $chosenCard = rand(0, 51);
     for ($i = 0; $i < count($usedCards); $i++) {
