@@ -160,7 +160,7 @@ function initializePlayers(&$players, $names, $cardsArr) {
         while ($userImages[$value]) { $value = rand(0,5); } // if the value is taken (true at index), get a new one
         $userImages[$value] = true;
         //echo "Background index: " . $value;
-        return $value;
+        return $value+1;
     }
     //echo "All taken, -1 returned";
     return -1;
