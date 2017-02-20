@@ -16,52 +16,6 @@
     6) Your contribution in GitHub is similar to your teammates (15pts)
     7) There is an external CSS file with 10 rules (10pts)
   */
- 
- /* 
-  class Player {
-      var $name;
-      var $points;
-      var $totalCards;
-      var $cards = array();
-      
-      public function __construct($name) {
-        $this->name = $name;
-        $this->points = 0;
-        $this->totalCards = 0;
-        $this->cards = [];
-    }
-      
-      function getName() {
-          return $this->name;
-      }
-      
-      function getPoints() {
-          return $this->points;
-      }
-      
-      // Assigns a player 4-6 random cards
-      function assignCards(&$cardsArr, &$usedCards) {
-          // Each player gets 4 to 6 cards, randomly
-          $totalCards = rand(4, 6);
-          
-          // Choose cards
-          for ($i = 0; $i < $totalCards; $i++)
-          {
-              $newCard = pickCard($cardsArr, $usedCards);
-              $this->cards[] = $newCard;
-              printCard($newCard);
-          }
-      }
-      
-      // Sums up the values of the cards in hand
-      function countPoints() {
-          for ($i = 0; $i < $totalCards; $i++)
-          {
-              $this->points += $cards[$i]["value"];
-          }
-      }
-  }
-  */
     // Array containing player names
     $names = array('Player 1','Player 2','Player 3','Player 4');
     
@@ -130,19 +84,21 @@ function initializePlayers(&$players, $names, $cardsArr) {
         $totalCards = rand(4, 6);
         $player["totalCards"] = $totalCards;
   
-        // Draw cards and count points
+        // Draw cards, count points, and print each card
         $cards = [];
         $points = 0;
         for ($j = 0; $j < $totalCards; $j++) {
           $newCard = pickCard($cardsArr, $usedCards);
           $cards[] = $newCard;
           $points += $newCard["value"];
-          printCard($newCard);
         }
         
         // Assign hand and total points to the player
         $player["cards"] = $cards;
         $player["points"] = $points;
+        
+        // Prints the player's hand
+        printHand($cards, $totalCards);
          
         // Testing output
         $players[$i] = $player;
@@ -174,9 +130,20 @@ function initializePlayers(&$players, $names, $cardsArr) {
  
  // Prints an individual card
  function printCard($card) {
-     echo $card["value"]." ". $card["suit"]." ".$card["bgImage"].'<br>';
+     // echo $card["value"]." ". $card["suit"]." ".$card["bgImage"].'<br>';
+     echo '<div class = "card" style="background-image: url('. $card["bgImage"].')";> </div>';
  }
  
+ // Prints a player's hand horizontally
+ function printHand($cards, $totalCards) {
+    echo '<div class = "suit">';
+    for ($i = 0; $i < $totalCards; $i++) {
+        printCard($cards[$i]);
+     }
+     echo '</div>';
+ }
+ 
+ // Test method to print out all the cards
  function printArray($cards) {
         $tmp;
         echo '<div class = "suit">';
