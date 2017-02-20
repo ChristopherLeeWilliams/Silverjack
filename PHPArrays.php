@@ -130,7 +130,6 @@ function initializePlayers(&$players, $names, $cardsArr) {
          }
      }
      
-     
      // Handle the case where nobody wins
      if (count($winner) == 0)
      {
@@ -140,7 +139,7 @@ function initializePlayers(&$players, $names, $cardsArr) {
      // Print out the winner(s)
      for ($i = 0; $i < count($winner); $i++)
      {
-         echo $winner[$i]["name"] . " wins!<br>";
+         echo $winner[$i]["name"] . " wins with " . $maxPoints ." points!<br>";
      }
  }
  
