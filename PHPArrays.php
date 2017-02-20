@@ -121,7 +121,20 @@ function initializePlayers(&$players, $names, $cardsArr) {
     
     // Prints the player's information
     for ($i = 0; $i < 4; $i++) {
-        printHand($cards, $totalCards, $players[$i]["name"], $players[$i]["points"], $players[$i]["bgImage"], $players[$i]["winner"]);
+        printHand($players[$i]["cards"], $players[$i]["totalCards"], $players[$i]["name"], $players[$i]["points"], $players[$i]["bgImage"], $players[$i]["winner"]);
+    }
+    
+    // Prints the case where nobody wins (Moved from determineWinner(), looks better printed below the game)
+    $winnerExists = false;
+    for ($i = 0; $i < 4; $i++) {
+         if ($players[$i]["winner"] == true) {
+             $winnerExists = true;
+             break;
+         }
+    }
+    
+    if ($winnerExists == false) {
+        echo "Everyone went over 42. Nobody wins!";
     }
 }
 
@@ -142,7 +155,7 @@ function initializePlayers(&$players, $names, $cardsArr) {
     return -1;
  }
  
-  // Determines which player won the game
+  // Determines which player(s) won the game
  function determineWinner(&$players) {
      $maxPoints = 0;
      $winner = [];
@@ -162,12 +175,7 @@ function initializePlayers(&$players, $names, $cardsArr) {
          }
      }
      
-     // Handle the case where nobody wins
-     if (count($winner) == 0) {
-         echo "Everyone went over 42. Nobody wins!";
-     }
-     
-     // Flags out the winner(s)
+     // Flags the winner(s)
      for ($i = 0; $i < count($winner); $i++) {
          // echo $winner[$i]["name"] . " wins with " . $maxPoints ." points!<br>";
          
@@ -228,7 +236,7 @@ function initializePlayers(&$players, $names, $cardsArr) {
      echo '<div class = "card"> Score: '.$playerScore.'</div>';
      
      if ($winner == true) {
-           echo '<div class = "card">' . '<b>Winner!</b>'. '</div>';
+           echo '<div class = "card" id="winnerMessage">' . '&nbsp &nbsp<b>Winner!</b>'. '</div>';
      }
      
      echo '</div>';
@@ -264,6 +272,8 @@ function initializePlayers(&$players, $names, $cardsArr) {
  }
   
 ?>
-
+        <footer>
+        <br><a href="PHPArrays.php" id="footerLink">Play Again</a>
+        </footer>
     </body>
 </html>

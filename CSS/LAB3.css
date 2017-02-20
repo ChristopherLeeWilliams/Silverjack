@@ -11,14 +11,46 @@
             color: #C0C0C0;
          }
 
-   div.card {
+      div.card {
             width: 72px;
             height: 96px;
             display:inherit;
             background-size: contain;
-        }
+      }
         
-   div.suit {
+      div.suit {
             width: 100%;
             display:inline-block;
-   }
+      }
+   
+      #winnerMessage {
+         color: green;
+         font-size: 200%;
+      }
+   
+      a:link    {
+      /* Applies to all unvisited links */
+      text-decoration:  none;
+      font-weight:      bold;
+      background-color: #ddd;
+      } 
+      
+      a:visited {
+      /* Applies to all visited links */
+      text-decoration:  none;
+      font-weight:      bold;
+      } 
+   
+      footer {
+          font-size: 150%;
+          text-align: center;
+      }
+   
+      #footerLink {
+          clear: both;
+          background-color: #90EE90;
+      }
+
+      #footerLink:hover {
+          color: black;
+      }
