@@ -62,7 +62,7 @@
       }
   }
   */
-    // Array containing names to be randomly chosen
+    // Array containing player names
     $names = array('Player 1','Player 2','Player 3','Player 4');
     
     $cardsArr = []; // should hold 52 card "objects"
@@ -70,37 +70,7 @@
     $players = [];  // Holds the game's players
     
     initializeCards($cardsArr);
-    
-    for ($i = 0; $i < 4; $i++) {
-        
-        // Assign basic player information
-        $player = [];
-        $player["name"] = $names[$i];
-        $player["points"] = 0;
-          
-        // Each player gets 4 to 6 cards, randomly
-        $totalCards = rand(4, 6);
-        $player["totalCards"] = $totalCards;
-  
-        // Draw cards and count points
-        $cards = [];
-        $points = 0;
-        for ($j = 0; $j < $totalCards; $j++) {
-          $newCard = pickCard($cardsArr, $usedCards);
-          $cards[] = $newCard;
-          $points += $newCard["value"];
-          printCard($newCard);
-        }
-        
-        // Assign hand and total points to the player
-        $player["cards"] = $cards;
-        $player["points"] = $points;
-         
-        // Testing output
-        $players[$i] = $player;
-        echo "Name: " . $players[$i]["name"];
-        echo ', Points: ' . $players[$i]["points"] . '<br><br>';
-    }
+    initializePlayers($players, $names, $cardsArr);
   
   // Test:
   printArray($cardsArr);
@@ -110,6 +80,7 @@
     printCard($card1);
   }*/
 
+ // Assigns all cards a point value and an image
  function initializeCards(&$cards) {
   $i;
   $j;
@@ -145,6 +116,40 @@
         }
     }
  }
+ 
+ // Defines and names the player, assigns cards, and totals points
+function initializePlayers(&$players, $names, $cardsArr) {
+    for ($i = 0; $i < 4; $i++) {
+        
+        // Assign basic player information
+        $player = [];
+        $player["name"] = $names[$i];
+        $player["points"] = 0;
+          
+        // Each player gets 4 to 6 cards, randomly
+        $totalCards = rand(4, 6);
+        $player["totalCards"] = $totalCards;
+  
+        // Draw cards and count points
+        $cards = [];
+        $points = 0;
+        for ($j = 0; $j < $totalCards; $j++) {
+          $newCard = pickCard($cardsArr, $usedCards);
+          $cards[] = $newCard;
+          $points += $newCard["value"];
+          printCard($newCard);
+        }
+        
+        // Assign hand and total points to the player
+        $player["cards"] = $cards;
+        $player["points"] = $points;
+         
+        // Testing output
+        $players[$i] = $player;
+        echo "Name: " . $players[$i]["name"];
+        echo ', Points: ' . $players[$i]["points"] . '<br><br>';
+    }
+}
  
  // Returns a random card and removes it from the deck
  // Needs to take the deck to return a card from it
