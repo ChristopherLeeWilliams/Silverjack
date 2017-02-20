@@ -26,7 +26,6 @@
     
     initializeCards($cardsArr);
     initializePlayers($players, $names, $cardsArr);
-    decideWinner($players);
   
   // Test:
   //printArray($cardsArr);
@@ -73,8 +72,7 @@
     }
  }
  
- // Defines and names the player, assigns cards, and totals points
- 
+ // Defines and names the player, assigns cards, totals points, and determines winner(s)
 function initializePlayers(&$players, $names, $cardsArr) {
     
     $userImages = array(false,false,false,false,false,false);
@@ -84,6 +82,7 @@ function initializePlayers(&$players, $names, $cardsArr) {
         $player = [];
         $player["name"] = $names[$i];
         $player["points"] = 0;
+        $player["winner"] = 0;
         //$player["bgImage"] =  "/Labs/Lab3/players/".rand(1,6).".png";
         $player["bgImage"] = "/Labs/Lab3/players/".getUserImageIndex($userImages).".png";
         $totalCards = 0;
@@ -110,51 +109,22 @@ function initializePlayers(&$players, $names, $cardsArr) {
         $player["points"] = $points;
         
          
-        // Testing output
+        // Adds player to array
         $players[$i] = $player;
-        
-        // Prints the player's hand
-        printHand($cards, $totalCards, $players[$i]["name"],$players[$i]["points"],$players[$i]["bgImage"]);
         
         //echo "Name: " . $players[$i]["name"];
         //echo ', Points: ' . $players[$i]["points"] . '<br><br>';
     }
+    
+    // Determines winner(s)
+    determineWinner($players);
+    
+    // Prints the player's information
+    for ($i = 0; $i < 4; $i++) {
+        printHand($cards, $totalCards, $players[$i]["name"], $players[$i]["points"], $players[$i]["bgImage"], $players[$i]["winner"]);
+    }
 }
- // Determines which player won the game
- function decideWinner($players) {
-     $maxPoints = 0;
-     $winner = [];
-     
-     // Loop through each player and determine if their points are greater than
-     // or equal to the old max, and that that value is 42 or less
-     for ($i = 0; $i < 4; $i++) {
-         if (($players[$i]["points"] >= $maxPoints) && ($players[$i]["points"] < 43)) 
-         {
-             $maxPoints = $players[$i]["points"];
-         }
-     }
-     
-     // Adds winner(s) to the winner array (Handles ties)
-     for ($i = 0; $i < 4; $i++) {
-         if ($players[$i]["points"] == $maxPoints)
-         {
-             $winner[] = $players[$i];
-         }
-     }
-     
-     // Handle the case where nobody wins
-     if (count($winner) == 0)
-     {
-         echo "Everyone went over 42. Nobody wins!";
-     }
-     
-     // Print out the winner(s)
-     for ($i = 0; $i < count($winner); $i++)
-     {
-         echo $winner[$i]["name"] . " wins with " . $maxPoints ." points!<br>";
-     }
- }
- 
+
  // Returns the index value of the player's display picture
  function getUserImageIndex(&$userImages) {
     // check to make sure all the values aren't taken
@@ -170,7 +140,44 @@ function initializePlayers(&$players, $names, $cardsArr) {
     }
     //echo "All taken, -1 returned";
     return -1;
+ }
+ 
+  // Determines which player won the game
+ function determineWinner(&$players) {
+     $maxPoints = 0;
+     $winner = [];
      
+     // Loop through each player and determine if their points are greater than
+     // or equal to the old max, and that that value is 42 or less
+     for ($i = 0; $i < 4; $i++) {
+         if (($players[$i]["points"] >= $maxPoints) && ($players[$i]["points"] < 43))  {
+             $maxPoints = $players[$i]["points"];
+         }
+     }
+     
+     // Adds winner(s) to the winner array (Handles ties)
+     for ($i = 0; $i < 4; $i++) {
+         if ($players[$i]["points"] == $maxPoints) {
+             $winner[] = $players[$i];
+         }
+     }
+     
+     // Handle the case where nobody wins
+     if (count($winner) == 0) {
+         echo "Everyone went over 42. Nobody wins!";
+     }
+     
+     // Flags out the winner(s)
+     for ($i = 0; $i < count($winner); $i++) {
+         // echo $winner[$i]["name"] . " wins with " . $maxPoints ." points!<br>";
+         
+         for ($j = 0; $j < 4; $j++)
+         {
+             if ($winner[$i]["name"] == $players[$j]["name"]) {
+                 $players[$j]["winner"] = true;
+             }
+         }
+     }
  }
  
  // Returns a random card and removes it from the deck
@@ -201,18 +208,29 @@ function initializePlayers(&$players, $names, $cardsArr) {
  }
  
  // Prints a player's hand horizontally
- function printHand($cards, $totalCards, $playerName, $playerScore, $playerBGImage) {
+ function printHand($cards, $totalCards, $playerName, $playerScore, $playerBGImage, $winner) {
     echo '<div class = "suit">';
     echo '<div class = "card" style="background-image: url('. $playerBGImage.')";> </div>';
     echo '<div class = "card"></div>';
+    
+    // Prints real cards
     for ($i = 0; $i < $totalCards; $i++) {
         printCard($cards[$i]);
      }
+     
+     // Prints empty cards
      for ($i = 0; $i < ((6-$totalCards) +1); $i++) {
         echo '<div class = "card"> </div>';
      }
+     
+     // Prints player status
      echo '<div class = "card">'. $playerName.'</div>';
      echo '<div class = "card"> Score: '.$playerScore.'</div>';
+     
+     if ($winner == true) {
+           echo '<div class = "card">' . '<b>Winner!</b>'. '</div>';
+     }
+     
      echo '</div>';
  }
  
