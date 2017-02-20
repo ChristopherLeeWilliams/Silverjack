@@ -86,20 +86,26 @@ function initializePlayers(&$players, $names, $cardsArr) {
         $player["points"] = 0;
         //$player["bgImage"] =  "/Labs/Lab3/players/".rand(1,6).".png";
         $player["bgImage"] = "/Labs/Lab3/players/".getUserImageIndex($userImages).".png";
-        // Each player gets 4 to 6 cards, randomly
-        $totalCards = rand(4, 6);
-        $player["totalCards"] = $totalCards;
+        $totalCards = 0;
+        
   
         // Draw cards, count points, and print each card
+        // Each player can draw up to 6 cards, but stops if they exceed 41 points
         $cards = [];
         $points = 0;
-        for ($j = 0; $j < $totalCards; $j++) {
+        for ($j = 0; $j < 6; $j++) {
           $newCard = pickCard($cardsArr, $usedCards);
           $cards[] = $newCard;
           $points += $newCard["value"];
+          $totalCards++;
+          
+          if ($points >= 42) {
+              break;
+          }
         }
         
         // Assign hand and total points to the player
+        $player["totalCards"] = $totalCards;
         $player["cards"] = $cards;
         $player["points"] = $points;
         
@@ -149,8 +155,8 @@ function initializePlayers(&$players, $names, $cardsArr) {
      }
  }
  
+ // Returns the index value of the player's display picture
  function getUserImageIndex(&$userImages) {
- 
     // check to make sure all the values aren't taken
     $allTaken = true;
     for ($i = 0; $i < 6; $i++) { $allTaken = $allTaken && ($userImages[$i] == true); }
