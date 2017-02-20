@@ -62,16 +62,45 @@
       }
   }
   */
+    // Array containing names to be randomly chosen
+    $names = array('Player 1','Player 2','Player 3','Player 4');
+    
+    $cardsArr = []; // should hold 52 card "objects"
+    $usedCards = []; // Holds cards that have already been picked
+    $players = [];  // Holds the game's players
+    
+    initializeCards($cardsArr);
+    
+    for ($i = 0; $i < 4; $i++) {
+        
+        // Assign basic player information
+        $player = [];
+        $player["name"] = $names[$i];
+        $player["points"] = 0;
+          
+        // Each player gets 4 to 6 cards, randomly
+        $totalCards = rand(4, 6);
+        $player["totalCards"] = $totalCards;
   
-  $cardsArr = []; // should hold 52 card "objects"
-  $usedCards = []; // Holds cards that have already been picked
-  $players = [];
-  initializeCards($cardsArr);
-  for ($i = 0; $i < 4; $i++) {
-      
-  }
-  $players["name"] = array(0 => 'Bob', 1 => 'Bill');
-  echo $players[0]["name"];
+        // Draw cards and count points
+        $cards = [];
+        $points = 0;
+        for ($j = 0; $j < $totalCards; $j++) {
+          $newCard = pickCard($cardsArr, $usedCards);
+          $cards[] = $newCard;
+          $points += $newCard["value"];
+          printCard($newCard);
+        }
+        
+        // Assign hand and total points to the player
+        $player["cards"] = $cards;
+        $player["points"] = $points;
+         
+        // Testing output
+        $players[$i] = $player;
+        echo "Name: " . $players[$i]["name"];
+        echo ', Points: ' . $players[$i]["points"] . '<br><br>';
+    }
   
   // Test:
   printArray($cardsArr);
