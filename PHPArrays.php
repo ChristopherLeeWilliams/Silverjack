@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
     <link rel="stylesheet" type="text/css"  href="/Labs/Lab3/CSS/LAB3.css">
