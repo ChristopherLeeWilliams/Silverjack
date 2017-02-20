@@ -29,7 +29,7 @@
     decideWinner($players);
   
   // Test:
-  printArray($cardsArr);
+  //printArray($cardsArr);
   /*for ($i = 0; $i < 51; $i++)
   {
     $card1 = pickCard($cardsArr, $usedCards);
@@ -74,14 +74,18 @@
  }
  
  // Defines and names the player, assigns cards, and totals points
+ 
 function initializePlayers(&$players, $names, $cardsArr) {
+    
+    $userImages = array(false,false,false,false,false,false);
     for ($i = 0; $i < 4; $i++) {
         
         // Assign basic player information
         $player = [];
         $player["name"] = $names[$i];
         $player["points"] = 0;
-          
+        //$player["bgImage"] =  "/Labs/Lab3/players/".rand(1,6).".png";
+        $player["bgImage"] = "/Labs/Lab3/players/".getUserImageIndex($userImages).".png";
         // Each player gets 4 to 6 cards, randomly
         $totalCards = rand(4, 6);
         $player["totalCards"] = $totalCards;
@@ -99,13 +103,15 @@ function initializePlayers(&$players, $names, $cardsArr) {
         $player["cards"] = $cards;
         $player["points"] = $points;
         
-        // Prints the player's hand
-        printHand($cards, $totalCards);
          
         // Testing output
         $players[$i] = $player;
-        echo "Name: " . $players[$i]["name"];
-        echo ', Points: ' . $players[$i]["points"] . '<br><br>';
+        
+        // Prints the player's hand
+        printHand($cards, $totalCards, $players[$i]["name"],$players[$i]["points"],$players[$i]["bgImage"]);
+        
+        //echo "Name: " . $players[$i]["name"];
+        //echo ', Points: ' . $players[$i]["points"] . '<br><br>';
     }
 }
  // Determines which player won the game
@@ -143,6 +149,24 @@ function initializePlayers(&$players, $names, $cardsArr) {
      }
  }
  
+ function getUserImageIndex(&$userImages) {
+ 
+    // check to make sure all the values aren't taken
+    $allTaken = true;
+    for ($i = 0; $i < 6; $i++) { $allTaken = $allTaken && ($userImages[$i] == true); }
+    
+    if (!$allTaken) {
+        $value = rand(0,5);
+        while ($userImages[$value]) { $value = rand(0,5); } // if the value is taken (true at index), get a new one
+        $userImages[$value] = true;
+        //echo "Background index: " . $value;
+        return $value;
+    }
+    //echo "All taken, -1 returned";
+    return -1;
+     
+ }
+ 
  // Returns a random card and removes it from the deck
  // Needs to take the deck to return a card from it
  // Needs to take usedCards to modify the array
@@ -171,11 +195,18 @@ function initializePlayers(&$players, $names, $cardsArr) {
  }
  
  // Prints a player's hand horizontally
- function printHand($cards, $totalCards) {
+ function printHand($cards, $totalCards, $playerName, $playerScore, $playerBGImage) {
     echo '<div class = "suit">';
+    echo '<div class = "card" style="background-image: url('. $playerBGImage.')";> </div>';
+    echo '<div class = "card"></div>';
     for ($i = 0; $i < $totalCards; $i++) {
         printCard($cards[$i]);
      }
+     for ($i = 0; $i < ((6-$totalCards) +1); $i++) {
+        echo '<div class = "card"> </div>';
+     }
+     echo '<div class = "card">'. $playerName.'</div>';
+     echo '<div class = "card"> Score: '.$playerScore.'</div>';
      echo '</div>';
  }
  

@@ -15,7 +15,9 @@
             width: 72px;
             height: 96px;
             display:inherit;
+            background-size: contain;
         }
+        
    div.suit {
             width: 100%;
             display:inline-block;
